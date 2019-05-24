@@ -58,16 +58,7 @@ new.plan <- data.frame(
 
 precincts <- readOGR("precinct/Precincts.shp")
 waller.county <- subset(precincts, precincts$CNTY %in% c("473"))
-
-#m <- leaflet()
-#m <- addProviderTiles(m,"CartoDB.Positron")
-#m <- addTiles(m)
-#m <- addMarkers(m, data = old.plan, lng = ~lng, lat = ~lat, group = "Old Plan")
-#m <- addMarkers(m, data = new.plan, lng = ~lng, lat = ~lat, group = "My Plan")
-#m <- addLayersControl(m, baseGroups = c("Old Plan","My Plan"))
-#m <- addPolygons(m, color = "#444444", weight = 1, fillColor = "#0000FF", data = waller.county)
-#m
-
+waller.county <- spTransform(waller.county,CRS("+init=epsg:4326"))
 leaflet() %>%
   addProviderTiles('CartoDB.Positron') %>%
   addMarkers(data = old.plan, lng = ~lng, lat = ~lat, group = "Old Plan") %>%
@@ -75,4 +66,4 @@ leaflet() %>%
   addPolygons(data = waller.county) %>%
   addLayersControl(baseGroups = c("Old Plan","New Plan"))
 
-mapview(waller.county)
+#mapview(waller.county)
