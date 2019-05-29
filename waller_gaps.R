@@ -61,9 +61,7 @@ waller.county <- subset(precincts, precincts$CNTY %in% c("473"))
 waller.county <- spTransform(waller.county,CRS("+init=epsg:4326"))
 leaflet() %>%
   addProviderTiles('CartoDB.Positron') %>%
-  addMarkers(data = old.plan, lng = ~lng, lat = ~lat, group = "Old Plan") %>%
-  addMarkers(data = new.plan, lng = ~lng, lat = ~lat, group = "New Plan") %>%
-  addPolygons(data = waller.county) %>%
-  addLayersControl(baseGroups = c("Old Plan","New Plan"))
-
-#mapview(waller.county)
+  addMarkers(data = old.plan, lng = ~lng, lat = ~lat, group = "Waller County Locations", popup = ~names) %>%
+  addMarkers(data = new.plan, lng = ~lng, lat = ~lat, group = "Optimized Locations", popup = ~names) %>%
+  addPolygons(data = waller.county, fillColor = "#0000FF", color = "#000000", weight = 1, popup = paste("Precinct #: ", waller.county$PREC)) %>%
+  addLayersControl(baseGroups = c("Waller County Locations","Optimized Locations"),options = layersControlOptions(collapsed = FALSE))
